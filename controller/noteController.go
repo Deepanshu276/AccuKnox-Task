@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"github.com/Deepanshu276/AccuKnox-Task/database"
+	"github.com/Deepanshu276/AccuKnox-Task/model"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
@@ -27,10 +29,10 @@ func CreateNote(c *fiber.Ctx) error {
 
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	var user models.User
+	var user model.User
 	database.DB.Where("id = ?", claims.Issuer).First(&user)
 
-	note := models.Note{
+	note := model.Note{
 		Title:    data["title"],
 		Category: data["category"],
 		Details:  data["details"],
@@ -58,7 +60,7 @@ func GetNotes(c *fiber.Ctx) error {
 
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	var notes []models.Note
+	var notes []model.Note
 
 	database.DB.Where("user_id = ?", claims.Issuer).Find(&notes)
 
@@ -90,7 +92,7 @@ func GetNoteById(c *fiber.Ctx) error {
 
 	note_id := c.Params("NoteID")
 
-	var note models.Note
+	var note model.Note
 
 	database.DB.Where("id = ? AND user_id = ?", note_id, claims.Issuer).Find(&note)
 
@@ -128,7 +130,7 @@ func UpdateNoteById(c *fiber.Ctx) error {
 
 	note_id := c.Params("NoteID")
 
-	var note models.Note
+	var note model.Note
 
 	database.DB.Where("id = ? AND user_id = ?", note_id, claims.Issuer).Find(&note)
 
@@ -162,7 +164,7 @@ func DeleteNote(c *fiber.Ctx) error {
 	}
 
 	note_id := c.Params("NoteID")
-	var note models.Note
+	var note model.Note
 
 	database.DB.Where("id = ?", note_id).Find(&note)
 

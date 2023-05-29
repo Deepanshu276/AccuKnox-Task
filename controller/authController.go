@@ -4,7 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Deepanshu276/AccuKnox-Task/models"
+	"github.com/Deepanshu276/AccuKnox-Task/database"
+	"github.com/Deepanshu276/AccuKnox-Task/model"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
@@ -17,7 +18,7 @@ if err:=c.BodyParser(&data); err!=nil{
 	return err
 }
 password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
-user := models.User{
+user := model.User{
 	Name:     data["name"],
 	Email:    data["email"],
 	Password: password,
@@ -42,7 +43,7 @@ func Login(c *fiber.Ctx) error {
 		return err
 	}
 
-	var user models.User
+	var user model.User
 
 	database.DB.Where("email = ?", data["email"]).First(&user)
 
@@ -102,7 +103,7 @@ func User(c *fiber.Ctx) error {
 
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	var user models.User
+	var user model.User
 
 	database.DB.Where("id = ?", claims.Issuer).First(&user)
 

@@ -9,6 +9,8 @@ require (
 	gorm.io/gorm v1.25.1
 )
 
+require github.com/mattn/go-sqlite3 v1.14.16 // indirect
+
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/google/uuid v1.3.0 // indirect
@@ -27,4 +29,5 @@ require (
 	github.com/valyala/fasthttp v1.47.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
+	gorm.io/driver/sqlite v1.5.1
 )
